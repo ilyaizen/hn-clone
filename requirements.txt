@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+aiohttp
+aiosqlite
+beautifulsoup4
+pydantic
+jinja2
+pillow
