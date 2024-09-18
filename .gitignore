@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+.venv
+*.db
+.pytest_cache
+static/images
+node_modules

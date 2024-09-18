@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yet Another HN Clone</title>
+    <!-- Add Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link href="{{ url_for('static', path='css/output.css') }}" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100 transition-colors duration-200 dark:bg-gray-800">
+    <div class="container mx-auto px-4 py-8">
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Yet Another HN Clone</h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Hacker News Top Stories presented with a Ticker</p>
+        </div>
+        <button id="darkModeToggle" class="p-2" aria-label="Toggle dark mode">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-300"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {% if stories %} {% for story in stories %}
+        <div class="overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md dark:border-gray-900">
+          <div class="story-image-container h-48">
+            <a href="{{ story.url }}" rel="noopener noreferrer" class="story-link" title="{{ story.title }}"></a>
+            {% if story.image_url %}
+            <img src="{{ story.image_url }}" alt="Story image" class="story-image" />
+            {% else %}
+            <div class="story-image bg-gray-300"></div>
+            {% endif %}
+            <div class="absolute inset-0 flex items-end bg-black bg-opacity-60 p-4">
+              <h2 class="text-shadow line-clamp-2 text-xl font-semibold text-white">
+                <a href="{{ story.url }}" target="_blank" rel="noopener noreferrer"> {{ story.title }} </a>
+              </h2>
+            </div>
+          </div>
+          <div class="p-4">
+            {% if story.description %}
+            <p class="mb-4 line-clamp-3 text-xs text-gray-500">{{ story.description }}</p>
+            {% endif %}
+            <div class="mb-2 flex items-center justify-between">
+              <span class="rounded bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-700">
+                <a
+                  href="https://news.ycombinator.com/user?id={{ story.poster }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:underline"
+                >
+                  {{ story.poster }}
+                </a>
+              </span>
+              <span class="flex items-center text-sm text-gray-600">
+                <i class="fas fa-clock mr-1"></i>
+                {{ time_ago(story.time_posted) }}
+              </span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="flex items-center text-sm text-gray-600">
+                <i class="fas fa-thumbs-up mr-1"></i>
+                {{ story.score }} points
+              </span>
+              <span class="flex items-center text-sm text-gray-600">
+                <i class="fas fa-comment mr-1"></i>
+                <a href="{{ story.hn_url }}" class="hover:underline">{{ story.comments_count }} comments</a>
+              </span>
+            </div>
+            {% if story.trend in ['up', 'down'] %}
+            <div class="mt-2 text-sm text-gray-600">
+              <span
+                class="{% if story.trend == 'up' %}trend-up{% elif story.trend == 'down' %}trend-down{% endif %} mr-1"
+              >
+                {{ get_trend_symbol(story.trend) }}
+              </span>
+              {% if story.current_position %}
+              <span>Current position: {{ story.current_position }}</span>
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p class="col-span-full text-center text-gray-600">No stories available</p>
+        {% endif %}
+      </div>
+    </div>
+    <script>
+      // Dark mode toggle logic
+      const html = document.documentElement;
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const darkModeIcon = darkModeToggle.querySelector('i');
+
+      function toggleDarkMode() {
+        html.classList.toggle('dark');
+        darkModeIcon.classList.toggle('fa-moon');
+        darkModeIcon.classList.toggle('fa-sun');
+        localStorage.setItem('darkMode', html.classList.contains('dark'));
+      }
+
+      darkModeToggle.addEventListener('click', toggleDarkMode);
+
+      // Check for saved dark mode preference
+      if (localStorage.getItem('darkMode') === 'true') {
+        html.classList.add('dark');
+        darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+      }
+
+      // Page refresh logic
+      setTimeout(() => window.location.reload(), 900000);
+    </script>
+  </body>
+</html>
