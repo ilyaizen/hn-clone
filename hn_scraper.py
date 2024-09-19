@@ -44,4 +44,4 @@ async def start_scraper() -> None:
             print(f"Error fetching stories: {e}")
             print("Traceback:")
             print(traceback.format_exc())
-        await asyncio.sleep(180)  # Sleep for 3 minutes
+        await asyncio.sleep(900)  # Sleep for 15 minutes

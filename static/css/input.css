@@ -31,10 +31,6 @@
   pointer-events: none;
 }
 
-.dark .story-image-container:hover .story-image {
-  filter: brightness(1.1);
-}
-
 .story-link {
   position: absolute;
   top: 0;
