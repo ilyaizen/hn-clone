@@ -8,7 +8,7 @@
     <title>YAHNC</title>
     <meta
       name="description"
-      content="Yet Another HN Clone with a Images and Trends 📈"
+      content="Yet Another HN Clone with Images and Trends 📈"
     />
     <meta name="author" content="Ilya Aizenberg" />
     <meta
@@ -46,7 +46,7 @@
     <!-- Google tag (gtag.js) -->
     <script
       async
-      src="https://www.googletagmanager.com/gtag/js?id=G-QRGNH8TW07"
+      src="https://www.googletagmanager.com/gtag/js?id=G-3LX6MHLD3J"
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -55,22 +55,26 @@
       }
       gtag("js", new Date());
 
-      gtag("config", "G-QRGNH8TW07");
+      gtag("config", "G-3LX6MHLD3J");
     </script>
   </head>
   <body class="bg-gray-100">
     <div class="mx-auto max-w-2xl px-4 py-8">
       <div class="mb-6 flex items-center justify-between">
-        <div>
+        <div class="flex items-center">
           <img
             src="{{ url_for('static', path='/images/logo.png') }}"
             alt="YAHNC Logo"
-            class="mb-2 h-12 w-auto"
+            class="mr-4 h-16 w-auto"
           />
-          <h1 class="text-3xl font-bold text-gray-900">Yet Another HN Clone</h1>
-          <p class="mt-1 text-sm text-gray-500">
-            Hacker News Top Stories presented with a Images and Trends 📈
-          </p>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+              Yet Another HN Clone
+            </h1>
+            <p class="text-xs text-gray-500">
+              Hacker News Top Stories presented with Images and Trends 📈
+            </p>
+          </div>
         </div>
       </div>
       <div class="grid grid-cols-1 gap-6">
@@ -120,17 +124,14 @@
           </div>
           <div class="p-4">
             <div class="mb-2 flex items-center justify-between">
-              <span
+              <a
+                href="https://news.ycombinator.com/user?id={{ story.poster }}"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="rounded-full bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-700 hover:bg-gray-300"
               >
-                <a
-                  href="https://news.ycombinator.com/user?id={{ story.poster }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {{ story.poster }}
-                </a>
-              </span>
+                {{ story.poster }}
+              </a>
               <span class="flex items-center text-sm text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

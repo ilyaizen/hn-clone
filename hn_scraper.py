@@ -29,14 +29,20 @@ async def start_scraper() -> None:
             stories = await fetch_top_stories()
             stories_with_metadata = []
             for index, story in enumerate(stories, start=1):
+                story['hn_url'] = f"https://news.ycombinator.com/item?id={story['id']}"
+
+                # Handle Ask HN, Show HN, etc.
+                if 'url' not in story or not story['url']:
+                    story['url'] = story['hn_url']
+
                 if 'url' in story:
                     metadata = await fetch_metadata(story['url'])
                     story.update(metadata)
                 else:
-                    story['description'] = ''
-                    story['image_url'] = ''
+                    story['description'] = story.get('text', '')[:280]
+                    story['image_url'] = '/static/images/placeholder.jpg'
+
                 story['current_position'] = index
-                story['hn_url'] = f"https://news.ycombinator.com/item?id={story['id']}"
                 stories_with_metadata.append(story)
             await update_stories(stories_with_metadata)
             print(f"Updated {len(stories_with_metadata)} stories")
