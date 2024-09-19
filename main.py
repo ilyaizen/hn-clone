@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 import asyncio
 from typing import AsyncGenerator
 from datetime import datetime
+import os
 
 from hn_scraper import start_scraper
 from database import get_stories, init_db
@@ -55,3 +56,8 @@ async def read_root(request: Request):
             "get_trend_symbol": get_trend_symbol,
         },
     )
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
