@@ -1,11 +1,6 @@
-# Yet Another Hacker News Clone (YAHNC)
+# Yet Another Hacker News Clone
 
 YAHNC is a FastAPI-based web application that fetches and displays top stories from Hacker News with additional features like trend indicators when a story is trending and images fetched from Open Graph metadata.
-
-## TODO
-
-- [ ] Add a screenshot to the README
-- [ ] Add...
 
 ## Features
 

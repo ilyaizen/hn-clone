@@ -3,28 +3,47 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow" />
+
+    <title>YAHNC</title>
     <meta name="description" content="Yet Another HN Clone with a Trends and Images" />
     <meta name="author" content="Ilya Aizenberg" />
     <meta name="keywords" content="Hacker News, Clone, Trends, Ticker, Images" />
 
-    <title>YAHNC</title>
+    <!-- Open Graph metadata -->
+    <meta property="og:title" content="YAHNC - Yet Another HN Clone" />
+    <meta property="og:description" content="Hacker News Top Stories presented with Trends and Images 📈" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{ request.base_url }}static/images/logo.png" />
+    <meta property="og:site_name" content="YAHNC" />
 
     <!-- Add favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}" />
 
     <!-- Add Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-    <link href="{{ url_for('static', path='css/output.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', path='/css/output.css') }}" rel="stylesheet" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3LPZSZ5SP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-B3LPZSZ5SP');
+    </script>
   </head>
   <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
+    <div class="mx-auto max-w-2xl px-4 py-8">
       <div class="mb-6 flex items-center justify-between">
         <div>
+          <img src="{{ url_for('static', path='/images/logo.png') }}" alt="YAHNC Logo" class="mb-2 h-12 w-auto" />
           <h1 class="text-3xl font-bold text-gray-900">Yet Another HN Clone</h1>
-          <p class="mt-1 text-sm text-gray-600">Hacker News Top Stories presented with a Ticker</p>
+          <p class="mt-1 text-sm text-gray-500">Hacker News Top Stories presented with a Trends and Images 📈</p>
         </div>
-        <!-- Remove dark mode toggle button -->
       </div>
       <div class="grid grid-cols-1 gap-6">
         {% if stories %} {% for story in stories %}
@@ -42,47 +61,94 @@
             <div class="story-image h-full w-full bg-gray-300"></div>
             {% endif %}
             <div
-              class="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-black/40 via-transparent to-black/80 p-4"
-            >
+              class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/40 transition-opacity duration-300 group-hover:opacity-0"
+            ></div>
+            <div class="absolute inset-0 flex flex-col justify-between p-4">
               <h2 class="text-shadow line-clamp-2 text-xl font-semibold text-white">
                 <a href="{{ story.url }}" target="_blank" rel="noopener noreferrer" class="group-hover:underline"
                   >{{ story.title }}</a
                 >
               </h2>
               {% if story.description %}
-              <p class="text-shadow mt-auto line-clamp-2 text-xs text-white">{{ story.description }}</p>
+              <p
+                class="text-shadow mt-auto line-clamp-2 text-xs text-white transition-opacity duration-300 group-hover:opacity-0"
+              >
+                {{ story.description }}
+              </p>
               {% endif %}
             </div>
           </div>
           <div class="p-4">
             <div class="mb-2 flex items-center justify-between">
-              <span class="rounded bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-700">
+              <span class="rounded-full bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-700 hover:bg-gray-300">
                 <a
                   href="https://news.ycombinator.com/user?id={{ story.poster }}"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="hover:underline"
                 >
                   {{ story.poster }}
                 </a>
               </span>
-              <span class="flex items-center text-sm text-gray-600">
-                <i class="fas fa-clock mr-1"></i>
+              <span class="flex items-center text-sm text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-clock mr-2 h-4 w-4"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
                 {{ time_ago(story.time_posted) }}
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="flex items-center text-sm text-gray-600">
-                <i class="fas fa-thumbs-up mr-1"></i>
+              <span class="flex items-center text-sm text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-thumbs-up mr-2 h-4 w-4"
+                >
+                  <path d="M7 10v12" />
+                  <path
+                    d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"
+                  />
+                </svg>
                 {{ story.score }} points
               </span>
-              <span class="flex items-center text-sm text-gray-600">
-                <i class="fas fa-comment mr-1"></i>
+              <span class="flex items-center text-sm text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-message-square mr-2 h-4 w-4"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
                 <a href="{{ story.hn_url }}" class="hover:underline">{{ story.comments_count }} comments</a>
               </span>
             </div>
             {% if story.trend in ['up', 'down'] %}
-            <div class="mt-2 text-sm text-gray-600">
+            <div class="mt-2 text-sm text-gray-500">
               <span
                 class="{% if story.trend == 'up' %}trend-up{% elif story.trend == 'down' %}trend-down{% endif %} mr-1"
               >
@@ -96,13 +162,93 @@
           </div>
         </div>
         {% endfor %} {% else %}
-        <p class="col-span-full text-center text-gray-600">No stories available</p>
+        <p class="col-span-full text-center text-gray-500">No stories available</p>
         {% endif %}
       </div>
     </div>
+    <footer class="mb-8 mt-8 text-center">
+      <a
+        href="https://github.com/ilyaizen/hn-clone"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center text-gray-600 hover:text-gray-800"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-github mr-2"
+        >
+          <path
+            d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+          />
+          <path d="M9 18c-4.51 2-5-2-7-2" />
+        </svg>
+        View on GitHub
+      </a>
+    </footer>
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 z-50 hidden bg-gray-800 p-4 text-center text-white">
+      <div class="relative mx-auto max-w-4xl">
+        <p class="mb-2">This website uses cookies to enhance the user experience.</p>
+        <button id="accept-cookies" class="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+          Accept
+        </button>
+        <button id="close-consent" class="absolute right-0 top-0 text-white hover:text-gray-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <script>
-      // Remove dark mode toggle logic
-      // Keep only the page refresh logic
+      // Cookie consent logic
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+      }
+
+      function getCookie(name) {
+        const value = '; ' + document.cookie;
+        const parts = value.split('; ' + name + '=');
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+      function hideCookieConsent() {
+        document.getElementById('cookie-consent').classList.add('hidden');
+      }
+
+      if (!getCookie('cookie_consent')) {
+        document.getElementById('cookie-consent').classList.remove('hidden');
+      }
+
+      document.getElementById('accept-cookies').addEventListener('click', function () {
+        setCookie('cookie_consent', 'true', 365);
+        hideCookieConsent();
+        // Enable Google Analytics after consent
+        gtag('consent', 'update', {
+          analytics_storage: 'granted',
+        });
+      });
+
+      document.getElementById('close-consent').addEventListener('click', function () {
+        hideCookieConsent();
+      });
+
+      // Disable Google Analytics by default
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+      });
+
+      // Existing auto-refresh script
       setTimeout(() => window.location.reload(), 900000);
     </script>
   </body>
