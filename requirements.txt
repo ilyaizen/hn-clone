@@ -8,3 +8,4 @@ jinja2
 pillow
 selenium
 webdriver_manager
+sqlalchemy

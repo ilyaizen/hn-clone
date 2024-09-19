@@ -1,12 +1,12 @@
-run = "pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8080"
+run = "pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 80"
 modules = ["python-3.12", "web", "nix"]
 
 [deployment]
-run = ["sh", "-c", "pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8080"]
+run = ["sh", "-c", "pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 80"]
 
 [nix]
 channel = "stable-24_05"
 
 [[ports]]
-localPort = 8080
+localPort = 80
 externalPort = 80
