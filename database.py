@@ -17,6 +17,7 @@ async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession
 async def init_db() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    print("Database initialized successfully")
 
 async def get_stories() -> List[Story]:
     async with async_session() as session:

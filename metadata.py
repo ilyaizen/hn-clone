@@ -99,31 +99,50 @@ def is_image_too_small(image_filename: str) -> bool:
         return img.width < 80 or img.height < 80
 
 async def capture_screenshot(url: str) -> str:
-    options = Options()
-    options.add_argument("--headless")
-    service = Service(GeckoDriverManager().install())
-    
-    driver = webdriver.Firefox(service=service, options=options)
     try:
-        driver.get(url)
-        driver.set_window_size(1280, 1024)  # Set a larger window size
-        screenshot = driver.get_screenshot_as_png()
+        options = Options()
+        options.add_argument("--headless")
+        service = Service(GeckoDriverManager().install())
         
-        image = Image.open(BytesIO(screenshot))
-        image = image.convert('RGB')
-        
-        # Resize to max width of 640px
-        max_width = 640
-        if image.width > max_width:
-            ratio = max_width / float(image.width)
-            height = int((float(image.height) * float(ratio)))
-            image = image.resize((max_width, height), Image.LANCZOS)
-        
-        image_hash = hashlib.md5(url.encode('utf-8')).hexdigest()
-        image_filename = f"{image_hash}_screenshot.jpg"
-        image_path = os.path.join(IMAGE_DIR, image_filename)
-        image.save(image_path, "JPEG")
-        
-        return image_filename
-    finally:
-        driver.quit()
+        driver = webdriver.Firefox(service=service, options=options)
+        try:
+            driver.get(url)
+            driver.set_window_size(1280, 1024)  # Set a larger window size
+            screenshot = driver.get_screenshot_as_png()
+            
+            image = Image.open(BytesIO(screenshot))
+            image = image.convert('RGB')
+            
+            # Resize to max width of 640px
+            max_width = 640
+            if image.width > max_width:
+                ratio = max_width / float(image.width)
+                height = int((float(image.height) * float(ratio)))
+                image = image.resize((max_width, height), Image.LANCZOS)
+            
+            image_hash = hashlib.md5(url.encode('utf-8')).hexdigest()
+            image_filename = f"{image_hash}_screenshot.jpg"
+            image_path = os.path.join(IMAGE_DIR, image_filename)
+            image.save(image_path, "JPEG")
+            
+            return image_filename
+        finally:
+            driver.quit()
+    except Exception as e:
+        print(f"Error capturing screenshot for {url}: {e}")
+        return await fallback_image_capture(url)
+
+async def fallback_image_capture(url: str) -> str:
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=10) as response:
+                if response.status == 200:
+                    html = await response.text()
+                    soup = BeautifulSoup(html, 'html.parser')
+                    og_image = soup.find('meta', property='og:image')
+                    if og_image and og_image.get('content'):
+                        return await download_and_resize_image(og_image['content'])
+    except Exception as e:
+        print(f"Error in fallback image capture for {url}: {e}")
+    
+    return 'placeholder.jpg'

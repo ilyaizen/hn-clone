@@ -9,19 +9,20 @@ from datetime import datetime
 from hn_scraper import start_scraper
 from database import get_stories, init_db
 
-app = FastAPI()
+async def lifespan(app: FastAPI) -> AsyncGenerator:
+    # Initialize the database
+    await init_db()
+    app.state.scraper_task = asyncio.create_task(start_scraper())
+    yield
+    app.state.scraper_task.cancel()
+
+app = FastAPI(lifespan=lifespan)
 
 # Mount the static directory
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Set up Jinja2 templates
 templates = Jinja2Templates(directory="templates")
-
-async def lifespan(app: FastAPI) -> AsyncGenerator:
-    await init_db()
-    app.state.scraper_task = asyncio.create_task(start_scraper())
-    yield
-    app.state.scraper_task.cancel()
 
 def time_ago(dt: datetime) -> str:
     now = datetime.now()
