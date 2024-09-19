@@ -3,5 +3,4 @@ __pycache__
 .venv
 *.db
 .pytest_cache
-static/images
 node_modules

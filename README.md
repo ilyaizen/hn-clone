@@ -23,7 +23,7 @@ YAHNC is a FastAPI-based web application that fetches and displays top stories f
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/hn-clone.git
+   git clone https://github.com/ilyaizen/hn-clone.git
    cd hn-clone
    ```
 
