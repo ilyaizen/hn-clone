@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -6,82 +6,50 @@
     <meta name="robots" content="index, follow" />
 
     <title>YAHNC</title>
-    <meta
-      name="description"
-      content="Yet Another HN Clone with Images and Trends 📈"
-    />
+    <meta name="description" content="Yet Another HN Clone with Images and Trends 📈" />
     <meta name="author" content="Ilya Aizenberg" />
-    <meta
-      name="keywords"
-      content="Hacker News, Clone, Trends, Ticker, Images, Trending"
-    />
+    <meta name="keywords" content="Hacker News, Clone, Trends, Ticker, Images, Trending" />
 
     <!-- Open Graph metadata -->
     <meta property="og:title" content="YAHNC - Yet Another HN Clone" />
-    <meta
-      property="og:description"
-      content="Hacker News Top Stories presented with Images and Trends 📈"
-    />
+    <meta property="og:description" content="Hacker News Top Stories presented with Images and Trends 📈" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ request.url }}" />
-    <meta
-      property="og:image"
-      content="{{ request.base_url }}static/images/logo.png"
-    />
+    <meta property="og:image" content="{{ request.base_url }}static/images/logo.png" />
     <meta property="og:site_name" content="YAHNC" />
 
     <!-- Add favicon -->
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="{{ url_for('static', path='/favicon.ico') }}"
-    />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}" />
 
     <!-- Add Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="{{ url_for('static', path='/css/output.css') }}"
-      rel="stylesheet"
-    />
+    <link href="{{ url_for('static', path='/css/output.css') }}" rel="stylesheet" />
     <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-3LX6MHLD3J"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LX6MHLD3J"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
-      gtag("js", new Date());
+      gtag('js', new Date());
 
-      gtag("config", "G-3LX6MHLD3J");
+      gtag('config', 'G-3LX6MHLD3J');
     </script>
   </head>
   <body class="bg-gray-100">
     <div class="mx-auto max-w-2xl px-4 py-8">
       <div class="mb-6 flex items-center justify-between">
         <div class="flex items-center">
-          <img
-            src="{{ url_for('static', path='/images/logo.png') }}"
-            alt="YAHNC Logo"
-            class="mr-4 h-16 w-auto"
-          />
+          <img src="{{ url_for('static', path='/images/logo.png') }}" alt="YAHNC Logo" class="mr-4 h-16 w-auto" />
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">
-              Yet Another HN Clone
-            </h1>
-            <p class="text-xs text-gray-500">
-              Hacker News Top Stories presented with Images and Trends 📈
-            </p>
+            <h1 class="text-3xl font-bold text-gray-900">Yet Another HN Clone</h1>
+            <p class="text-xs text-gray-500">Hacker News Top Stories presented with Images and Trends 📈</p>
           </div>
         </div>
       </div>
       <div class="grid grid-cols-1 gap-6">
         {% if stories %} {% for story in stories %}
-        <div
-          class="overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md"
-        >
+        <div class="overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md">
           <div class="story-image-container group relative h-48">
             <a
               href="{{ story.url }}"
@@ -90,26 +58,16 @@
               title="{{ story.title }}"
             ></a>
             {% if story.image_url %}
-            <img
-              src="{{ story.image_url }}"
-              alt="Story image"
-              class="story-image h-full w-full object-cover"
-            />
+            <img src="{{ story.image_url }}" alt="Story image" class="story-image h-full w-full object-cover" />
             {% else %}
             <div class="story-image h-full w-full bg-gray-300"></div>
             {% endif %}
             <div
-              class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/40 transition-opacity duration-300 group-hover:opacity-0"
+              class="absolute inset-0 bg-gradient-to-b from-black/70 from-5% via-transparent via-60% to-black/70 transition-opacity duration-300 group-hover:opacity-0"
             ></div>
             <div class="absolute inset-0 flex flex-col justify-between p-4">
-              <h2
-                class="text-shadow line-clamp-2 text-xl font-semibold text-white"
-              >
-                <a
-                  href="{{ story.url }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group-hover:underline"
+              <h2 class="text-shadow line-clamp-2 text-xl font-semibold text-white">
+                <a href="{{ story.url }}" target="_blank" rel="noopener noreferrer" class="group-hover:underline"
                   >{{ story.title }}</a
                 >
               </h2>
@@ -185,13 +143,9 @@
                   stroke-linejoin="round"
                   class="lucide lucide-message-square mr-2 h-4 w-4"
                 >
-                  <path
-                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                  />
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
-                <a href="{{ story.hn_url }}" class="hover:underline"
-                  >{{ story.comments_count }} comments</a
-                >
+                <a href="{{ story.hn_url }}" class="hover:underline">{{ story.comments_count }} comments</a>
               </span>
             </div>
             {% if story.trend in ['up', 'down'] %}
@@ -209,9 +163,7 @@
           </div>
         </div>
         {% endfor %} {% else %}
-        <p class="col-span-full text-center text-gray-500">
-          No stories available
-        </p>
+        <p class="col-span-full text-center text-gray-500">No stories available</p>
         {% endif %}
       </div>
     </div>
@@ -243,10 +195,7 @@
       </a>
     </footer>
     <!-- Cookie Consent Banner -->
-    <div
-      id="cookie-consent"
-      class="fixed bottom-0 left-0 right-0 z-50 hidden bg-black/80 p-4 text-center text-white"
-    >
+    <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 z-50 hidden bg-black/80 p-4 text-center text-white">
       <div class="relative mx-auto max-w-4xl">
         <p class="mb-2">Hey, this website asks to use cookies. 🍪</p>
         <button
@@ -260,19 +209,8 @@
           class="absolute right-0 top-0 text-white hover:text-gray-300"
           aria-label="Close cookie consent banner"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
@@ -283,44 +221,39 @@
       function setCookie(name, value, days) {
         const date = new Date();
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        document.cookie =
-          name + "=" + value + ";expires=" + date.toUTCString() + ";path=/";
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
       }
 
       function getCookie(name) {
-        const value = "; " + document.cookie;
-        const parts = value.split("; " + name + "=");
-        if (parts.length === 2) return parts.pop().split(";").shift();
+        const value = '; ' + document.cookie;
+        const parts = value.split('; ' + name + '=');
+        if (parts.length === 2) return parts.pop().split(';').shift();
       }
 
       function hideCookieConsent() {
-        document.getElementById("cookie-consent").classList.add("hidden");
+        document.getElementById('cookie-consent').classList.add('hidden');
       }
 
-      if (!getCookie("cookie_consent")) {
-        document.getElementById("cookie-consent").classList.remove("hidden");
+      if (!getCookie('cookie_consent')) {
+        document.getElementById('cookie-consent').classList.remove('hidden');
       }
 
-      document
-        .getElementById("accept-cookies")
-        .addEventListener("click", function () {
-          setCookie("cookie_consent", "true", 365);
-          hideCookieConsent();
-          // Enable Google Analytics after consent
-          gtag("consent", "update", {
-            analytics_storage: "granted",
-          });
+      document.getElementById('accept-cookies').addEventListener('click', function () {
+        setCookie('cookie_consent', 'true', 365);
+        hideCookieConsent();
+        // Enable Google Analytics after consent
+        gtag('consent', 'update', {
+          analytics_storage: 'granted',
         });
+      });
 
-      document
-        .getElementById("close-consent")
-        .addEventListener("click", function () {
-          hideCookieConsent();
-        });
+      document.getElementById('close-consent').addEventListener('click', function () {
+        hideCookieConsent();
+      });
 
       // Disable Google Analytics by default
-      gtag("consent", "default", {
-        analytics_storage: "denied",
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
       });
 
       // Existing auto-refresh script
