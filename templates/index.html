@@ -2,17 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
     <meta name="robots" content="index, follow" />
 
     <title>YAHNC</title>
-    <meta name="description" content="Yet Another HN Clone with Images and Trends 📈" />
+    <meta name="description" content="Yet Another HN Clone with Images and Trends" />
     <meta name="author" content="Ilya Aizenberg" />
     <meta name="keywords" content="Hacker News, Clone, Trends, Ticker, Images, Trending" />
 
     <!-- Open Graph metadata -->
     <meta property="og:title" content="YAHNC - Yet Another HN Clone" />
-    <meta property="og:description" content="Hacker News Top Stories presented with Images and Trends 📈" />
+    <meta property="og:description" content="Hacker News Top Stories presented with Images and Trends" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:image" content="{{ request.base_url }}static/images/logo.png" />
@@ -21,9 +21,8 @@
     <!-- Add favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}" />
 
-    <!-- Add Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="{{ url_for('static', path='/css/output.css') }}" rel="stylesheet" />
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3LX6MHLD3J"></script>
     <script>
@@ -43,7 +42,7 @@
           <img src="{{ url_for('static', path='/images/logo.png') }}" alt="YAHNC Logo" class="mr-4 h-16 w-auto" />
           <div>
             <h1 class="text-3xl font-bold text-gray-900">Yet Another HN Clone</h1>
-            <p class="text-xs text-gray-500">Hacker News Top Stories presented with Images and Trends 📈</p>
+            <p class="text-xs text-gray-500">Hacker News Top Stories presented with Images and Trends</p>
           </div>
         </div>
       </div>
@@ -80,17 +79,18 @@
               {% endif %}
             </div>
           </div>
+          <hr class="border-t border-gray-200" />
           <div class="p-4">
-            <div class="mb-2 flex items-center justify-between">
+            <div class="mb-2 flex items-center justify-between text-xs">
               <a
                 href="https://news.ycombinator.com/user?id={{ story.poster }}"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="rounded-full bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-700 hover:bg-gray-300"
+                class="rounded-full bg-gray-200 px-2 py-1 font-semibold text-gray-700 hover:bg-gray-300"
               >
                 {{ story.poster }}
               </a>
-              <span class="flex items-center text-sm text-gray-500">
+              <span class="flex items-center text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -109,8 +109,8 @@
                 {{ time_ago(story.time_posted) }}
               </span>
             </div>
-            <div class="flex items-center justify-between">
-              <span class="flex items-center text-sm text-gray-500">
+            <div class="flex items-center justify-between text-xs">
+              <span class="flex items-center text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -130,7 +130,7 @@
                 </svg>
                 {{ story.score }} points
               </span>
-              <span class="flex items-center text-sm text-gray-500">
+              <span class="flex items-center text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -149,7 +149,7 @@
               </span>
             </div>
             {% if story.trend in ['up', 'down'] %}
-            <div class="mt-2 text-sm text-gray-500">
+            <div class="mt-2 text-xs text-gray-500">
               <span
                 class="{% if story.trend == 'up' %}trend-up{% elif story.trend == 'down' %}trend-down{% endif %} mr-1"
               >
